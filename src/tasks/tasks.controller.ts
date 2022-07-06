@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Param, Body, Controller, Get, Post } from '@nestjs/common';
 import {TasksService} from "./tasks.service"
 import {Task} from "./task.model"
 import {CreateTaskDto} from "./dto/create-task.dto"
@@ -16,5 +16,10 @@ export class TasksController {
 	// 	Decorate each property and find it within the request body
 	createTask(@Body() createTaskDto: CreateTaskDto): Task {
 		return this.tasksService.createTask(createTaskDto);
+	}
+	
+	@Get("/:id")
+	getTaskById(@Param("id") id: string): Task {
+		return this.tasksService.getTaskById(id);
 	}
 }

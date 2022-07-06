@@ -27,4 +27,11 @@ export class TasksService {
 		
 		return newTask;
 	}
+	
+	getTaskById(id: string): Task {
+		
+		const task = this.tasks.find(task => task.id === id);
+		
+		return task;
+	}
 }
