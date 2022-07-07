@@ -60,9 +60,12 @@ export class TasksService {
 	
 	getTaskById(id: string): Task {
 		
+// 		Look for a task
 		const foundTask = this.tasks.find(task => task.id === id);
 		
+// 		if task is not found
 		if(!foundTask){
+// 			Throw an nestjs exception error
 			throw new NotFoundException(`Task with ID ${id} not found`);
 		}
 		
@@ -71,9 +74,9 @@ export class TasksService {
 	
 	deleteTaskById(id: string): void {
 		
-		const taskIndex = this.tasks.findIndex(task => task.id === id);
+		const foundTask = this.getTaskById(id);
 		
-		this.tasks.splice(taskIndex, 1);
+		this.tasks = this.tasks.filter(task => task.id !== foundTask.id)
 	}
 	
 	updateTaskStatusById(id: string, status: TaskStatus): Task {
