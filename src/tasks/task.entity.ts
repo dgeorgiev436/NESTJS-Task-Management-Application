@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { TaskStatus } from "./task.model";
 
 // Use the Entity decorator to tell typeorm that this is a database entity
+// We are following the Data Mapper Pattern
 @Entity()
 export class Task {
     // The decorator below automatically generates the ID and treats it as a primary key.
