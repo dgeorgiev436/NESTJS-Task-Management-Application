@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { TaskStatus } from "./task.model";
+import { TaskStatus } from "./task-status.enum";
 
 // Use the Entity decorator to tell typeorm that this is a database entity
 // We are following the Data Mapper Pattern
