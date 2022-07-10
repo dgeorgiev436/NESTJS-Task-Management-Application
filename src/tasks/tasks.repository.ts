@@ -1,12 +1,36 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
 
 @EntityRepository(Task)
 export class TasksRepository extends Repository<Task> {
-    // Create a task function
-    // Moved in the tasks.repository to make the service file smaller
+  async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    const { status, search } = filterDto;
+    const query = this.createQueryBuilder('task');
+
+    if (status) {
+      // :status is custom argument in the query
+      query.andWhere('task.status = :status', { status });
+    }
+
+    if (search) {
+      // Search in title and description for search term
+      //   LOWER converts the property to lower caseF
+      query.andWhere(
+        'LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)',
+        // Wrapped in Percentage sign allows us to look for independent parts of the search term
+        { search: `%${search}%` },
+      );
+    }
+
+    const tasks = await query.getMany();
+    return tasks;
+  }
+
+  // Create a task function
+  // Moved in the tasks.repository to make the service file smaller
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     const { title, description } = createTaskDto;
 
