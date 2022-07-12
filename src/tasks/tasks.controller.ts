@@ -16,6 +16,8 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { Task } from './task.entity';
 import { AuthGuard } from "@nestjs/passport"
+import { GetUser } from "src/auth/get-user.decorator"
+import { User } from "src/auth/user.entity"
 
 @Controller('tasks')
 // Protecting the whole controller with JWT token
@@ -29,8 +31,11 @@ export class TasksController {
   }
 
   @Post()
-  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.tasksService.createTask(createTaskDto);
+  createTask(
+	@Body() createTaskDto: CreateTaskDto,
+	@GetUser() user : User // get user custom decorator that gives us access to the whole user object
+	): Promise<Task> {
+    return this.tasksService.createTask(createTaskDto, user);
   }
 
   @Get('/:id')
