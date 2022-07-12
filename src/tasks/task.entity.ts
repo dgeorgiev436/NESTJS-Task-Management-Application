@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { TaskStatus } from "./task-status.enum";
+import { User } from "src/auth/user.entity"
 
 // Use the Entity decorator to tell typeorm that this is a database entity
 // We are following the Data Mapper Pattern
@@ -19,4 +20,10 @@ export class Task {
 
     @Column()
     status: TaskStatus;
+	
+// Many to one relation -- Many Tasks --> One user
+// The ManyToOne decorator takes 3 arguments. 
+// 1st is the type and 2nd how do we access the tasks from the user table.
+	@ManyToOne(_type => User, user => user.tasks, { eager: false })
+	user: User;
 }
