@@ -27,6 +27,6 @@ export class Task {
 // 1st is the type and 2nd how do we access the tasks from the user table.
 	@ManyToOne(_type => User, user => user.tasks, { eager: false })
 // 	class-transformer decorator for data serialization
-	@Exclude({ toPlainOnly: true }) // Dont return the user object when json Plain text request is sent
+	@Exclude({ toPlainOnly: true }) // Dont return the user object when returning a task in plain text
 	user: User;
 }

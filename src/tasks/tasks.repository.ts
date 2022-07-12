@@ -7,9 +7,12 @@ import { User } from "src/auth/user.entity"
 
 @EntityRepository(Task)
 export class TasksRepository extends Repository<Task> {
-  async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+  async getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
     const { status, search } = filterDto;
     const query = this.createQueryBuilder('task');
+	
+// 	Ensure only tasks made by the currently logged in user are returned
+	query.where({user});
 
     if (status) {
       // :status is custom argument in the query
