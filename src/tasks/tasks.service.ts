@@ -22,7 +22,7 @@ export class TasksService {
 
   createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     // Use createTask function coming from the tasks.repository file
-    return this.tasksRepository.createTask(createTaskDto);
+    return this.tasksRepository.createTask(createTaskDto, user);
   }
 
   async getTaskById(id): Promise<Task> {
