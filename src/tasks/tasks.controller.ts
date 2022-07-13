@@ -7,7 +7,8 @@ import {
   Patch,
   Delete,
   Query,
-  UseGuards
+  UseGuards,
+  Logger
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { TaskStatus } from './task-status.enum';
@@ -23,6 +24,8 @@ import { User } from "src/auth/user.entity"
 // Protecting the whole controller with JWT token
 @UseGuards(AuthGuard())
 export class TasksController {
+  private logger = new Logger("TasksController");
+	
   constructor(private tasksService: TasksService) {}
 
   @Get()
@@ -30,6 +33,8 @@ export class TasksController {
 	@Query() filterDto: GetTasksFilterDto,
 	@GetUser() user: User
 	): Promise<Task[]> {
+// 	A logger
+	this.logger.verbose(`User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(filterDto)}`)
     return this.tasksService.getTasks(filterDto, user);
   }
 
@@ -38,6 +43,7 @@ export class TasksController {
 	@Body() createTaskDto: CreateTaskDto,
 	@GetUser() user : User // get user custom decorator that gives us access to the whole user object
 	): Promise<Task> {
+	this.logger.verbose(`User "${user.username}" is creating the following task: ${JSON.stringify(createTaskDto)}`)
     return this.tasksService.createTask(createTaskDto, user);
   }
 
