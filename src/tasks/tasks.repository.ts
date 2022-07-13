@@ -23,7 +23,7 @@ export class TasksRepository extends Repository<Task> {
       // Search in title and description for search term
       //   LOWER converts the property to lower caseF
       query.andWhere(
-        'LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)',
+        '(LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search))',
         // Wrapped in Percentage sign allows us to look for independent parts of the search term
         { search: `%${search}%` },
       );
