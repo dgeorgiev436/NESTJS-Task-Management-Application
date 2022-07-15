@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { TaskStatus } from "./task-status.enum";
-import { User } from "src/auth/user.entity"
+import { User } from "../auth/user.entity"
 import { Exclude } from "class-transformer"
 
 // Use the Entity decorator to tell typeorm that this is a database entity
