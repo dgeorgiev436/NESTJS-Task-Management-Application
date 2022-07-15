@@ -2,6 +2,7 @@ import { Test } from "@nestjs/testing" // Import the NestJs testing package
 import { TasksService } from "./tasks.service"
 import { TasksRepository } from "./tasks.repository"
 import { TaskStatus } from "./task-status.enum"
+import { NotFoundException } from "@nestjs/common"
 
 // Create a mock of TasksRepository since we don't want to interact with the database in testing
 const mockTasksRepository = () => ({
@@ -60,7 +61,8 @@ describe("TasksService", () => {
 		});
 		
 		it("Calls TasksRepository.findOne and returns the result and handles an error", async() => {
-			
+			tasksRepository.findOne.mockResolvedValue(null);
+			expect(tasksService.getTaskById("someId", mockUser)).rejects.toThrow(NotFoundException);
 		});
 	})
 	
